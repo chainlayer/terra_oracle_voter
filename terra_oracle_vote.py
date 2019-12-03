@@ -604,9 +604,20 @@ while True:
 
         if not all_err_flag:
             # weighted average
-            luna_midprice_krw = (float(coinone_luna_midprice_krw) * coinone_share + float(
-                gopax_luna_midprice_krw) * gopax_share + float(gdac_luna_midprice_krw) * gdac_share) / (
-                                        coinone_share + gopax_share + gdac_share)
+            if gopax_share > 0:
+                if gdac_share > 0:
+                    # weighted average
+                    luna_midprice_krw = (float(coinone_luna_midprice_krw)*coinone_share + float(gopax_luna_midprice_krw)*gopax_share + float(gdac_luna_midprice_krw)*gdac_share)/(coinone_share+gopax_share+gdac_share)
+                else:
+                    # weighted average
+                    luna_midprice_krw = (float(coinone_luna_midprice_krw)*coinone_share + float(gopax_luna_midprice_krw)*gopax_share)/(coinone_share+gopax_share+gdac_share)
+            else:
+                if gdac_share > 0:
+                    # weighted average
+                    luna_midprice_krw = (float(coinone_luna_midprice_krw)*coinone_share + float(gdac_luna_midprice_krw)*gdac_share)/(coinone_share+gopax_share+gdac_share)
+                else:
+                    luna_midprice_krw = float(coinone_luna_midprice_krw)*coinone_share
+
             luna_base = coinone_luna_base
 
             # reorganize data
